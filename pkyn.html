@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抽選</title>
+<style>
+  body { 
+    margin: 0; 
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: #fff; 
+    font-family: sans-serif; 
+    user-select: none; 
+    cursor: pointer; 
+    overflow: hidden; 
+    -webkit-tap-highlight-color: transparent;
+  }
+  .flash { 
+    animation: fl 0.1s alternate 6; 
+  }
+  @keyframes fl { 
+    0% { background-color: #fff; } 
+    100% { background-color: #ffeb3b; } 
+  }
+  #m { 
+    font-size: 24px; 
+    font-weight: bold; 
+    text-align: center;
+    line-height: 1.5;
+    pointer-events: none; 
+  }
+</style>
+</head>
+<body>
+<div id="m">画面をタップして抽選</div>
+<script>
+  const b = document.body;
+  const m = document.getElementById('m');
+  let w = false;
+  let c = 0;
+
+  b.addEventListener('click', () => {
+    if(w) return;
+    b.className = '';
+    
+    setTimeout(() => {
+      // 12.5%の確率判定
+      if(Math.random() < 0.125) {
+        m.innerHTML = 'あたり';
+        b.className = 'flash';
+        w = true;
+        c = 0; // あたり時にカウンターを0にリセット
+        setTimeout(() => w = false, 600);
+      } else {
+        c++; // はずれ時にカウンターを加算
+        m.innerHTML = 'はずれ' + c + '回目<br>画面をタップして抽選';
+      }
+    }, 10);
+  });
+</script>
+</body>
+</html>
